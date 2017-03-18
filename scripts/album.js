@@ -13,7 +13,22 @@
      ]
  };
  
- var albumMarconi = {
+ var albumKant = {
+     title: 'Enlightenment',
+     artist: 'Immanuel Kant',
+     label: 'Reason',
+     year: '1781',
+     albumArtUrl: 'assets/images/album_covers/06.png',
+     songs: [
+         { title: 'Perception', duration: '4:05' },
+         { title: 'Transcendental Schemas', duration: '3:21' },
+         { title: 'Morality', duration: '6:51'},
+         { title: 'Let Justice Be Done', duration: '7:12' },
+         { title: 'Idea of Freadom', duration: '7:25'}
+     ]
+ };
+
+var albumMarconi = {
      title: 'The Telephone',
      artist: 'Guglielmo Marconi',
      label: 'EM',
@@ -40,29 +55,41 @@ var createSongRow = function(songNumber, songName, songLength) {
      return template;
  };
 
+var albumTitle = document.getElementsByClassName('album-view-title')[0];
+var albumArtist = document.getElementsByClassName('album-view-artist')[0];
+var albumReleaseInfo = document.getElementsByClassName('album-view-release-info')[0];
+var albumImage = document.getElementsByClassName('album-cover-art')[0];
+var albumSongList = document.getElementsByClassName('album-view-song-list')[0];
+
+    
 var setCurrentAlbum = function(album) {
-     // #1
-     var albumTitle = document.getElementsByClassName('album-view-title')[0];
-     var albumArtist = document.getElementsByClassName('album-view-artist')[0];
-     var albumReleaseInfo = document.getElementsByClassName('album-view-release-info')[0];
-     var albumImage = document.getElementsByClassName('album-cover-art')[0];
-     var albumSongList = document.getElementsByClassName('album-view-song-list')[0];
- 
-     // #2
      albumTitle.firstChild.nodeValue = album.title;
      albumArtist.firstChild.nodeValue = album.artist;
      albumReleaseInfo.firstChild.nodeValue = album.year + ' ' + album.label;
      albumImage.setAttribute('src', album.albumArtUrl);
+     
  
-     // #3
      albumSongList.innerHTML = '';
+
  
-     // #4
      for (var i = 0; i < album.songs.length; i++) {
          albumSongList.innerHTML += createSongRow(i + 1, album.songs[i].title, album.songs[i].duration);
      }
  };
  
- window.onload = function() {
-     setCurrentAlbum(albumPicasso);
- };
+window.onload = function() {
+    setCurrentAlbum(albumPicasso);
+    
+    var albumRec = [albumPicasso, albumKant, albumMarconi];
+    var i = 1;
+    
+    albumImage.addEventListener("click", function(){
+            setCurrentAlbum(albumRec[i]);
+            i++;
+            if (i == albumRec.length){
+            i = 0;
+            }
+    });
+       
+}
+
